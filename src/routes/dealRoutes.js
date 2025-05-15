@@ -13,6 +13,7 @@ router.post("/create", authMiddleware, createDeal);
 
 // Get all deals
 router.get("/get", getDeals);
+
 // Manually expire outdated deals
 router.patch("/expire", authMiddleware, expireDeals);
 
