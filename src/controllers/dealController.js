@@ -63,3 +63,59 @@ exports.expireDeals = async (req, res) => {
     res.status(500).json({ msg: "Server Error", error });
   }
 };
+
+// Get a single deal by ID
+exports.getDealById = async (req, res) => {
+  try {
+    const deal = await Deal.findById(req.params.id);
+    if (!deal) return res.status(404).json({ msg: "Deal not found" });
+    res.json({ msg: "Deal fetched successfully", deal });
+  } catch (error) {
+    res.status(500).json({ msg: "Server Error", error });
+  }
+};
+
+// Update a deal by ID
+exports.updateDeal = async (req, res) => {
+  try {
+    const updatedDeal = await Deal.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updatedDeal) return res.status(404).json({ msg: "Deal not found" });
+    res.json({ msg: "Deal updated", deal: updatedDeal });
+  } catch (error) {
+    res.status(500).json({ msg: "Server Error", error });
+  }
+};
+
+// Soft delete a deal
+exports.deleteDeal = async (req, res) => {
+  try {
+    const deleted = await Deal.findByIdAndUpdate(
+      req.params.id,
+      { is_active: false },
+      { new: true }
+    );
+    if (!deleted) return res.status(404).json({ msg: "Deal not found" });
+    res.json({ msg: "Deal soft deleted", deal: deleted });
+  } catch (error) {
+    res.status(500).json({ msg: "Server Error", error });
+  }
+};
+
+// Soft delete a deal
+exports.softDeleteDeal = async (req, res) => {
+  try {
+    const deal = await Deal.findById(req.params.id);
+    if (!deal) return res.status(404).json({ msg: "Deal not found" });
+
+    deal.is_active = false;
+    await deal.save();
+
+    res.status(200).json({ msg: "Deal soft deleted successfully", deal });
+  } catch (error) {
+    res.status(500).json({ msg: "Server Error", error });
+  }
+};
