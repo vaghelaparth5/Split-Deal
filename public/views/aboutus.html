@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    .about-wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .about-container {
+      display: flex;
+      flex-direction: column;
+      background-color: #1a202c;
+      border-radius: 12px;
+      overflow: hidden;
+      height: auto;
+    }
+
+    @media(min-width: 640px) {
+      .about-container {
+        flex-direction: row;
+        height: 320px;
+      }
+    }
+
+    .about-text {
+      flex: 2;
+      padding: 24px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .about-text h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .about-text p {
+      color: #cbd5e0;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      max-width: 500px;
+    }
+
+    .about-btn a {
+      display: inline-block;
+      background-color: white;
+      color: #1a202c;
+      font-weight: 600;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .about-btn a:hover {
+      background-color: #edf2f7;
+    }
+
+    .about-image {
+      flex: 3;
+      height: 200px;
+      background-color: #4a5568;
+    }
+
+    @media(min-width: 640px) {
+      .about-image {
+        height: auto;
+      }
+    }
+
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /*menu header*/
+.header{
+    padding: 30px 25px;
+  }
+  .header__elenco {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+  }
+  .header__menu {
+      float: right;
+  }
+  .header__el{
+      padding: 0 25px;
+      display: inline-block;
+  }
+  .header__img{
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+  .header__logo, .header__menu{
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .header__title{
+    font-size: 18px;
+    margin: 0;
+    margin-left: 10px;
+    display: inline-block;
+    line-height: 18px;
+    vertical-align: middle;
+  }
+  
+  .header__light{
+    color: orange;
+  }
+  .header__link{
+    color: black;
+    font-size: 14px;
+  
+  }
+  .header__link:hover{
+    text-decoration: none;
+    color:#3a9fff;
+  }
+  .navbar-toggle .icon-bar{
+    background-color: orange;
+  }
+  .navbar-toggle {
+      margin: 5px 0;
+  }
+  
+  </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header__container">
+      <div class="header__logo"><img class="header__img" src="https://res.cloudinary.com/dehtc9uyy/image/upload/v1741969203/SplitDealLogo_wtfs6f.png" height="40" width="170"> <h1 class="header__title"></h1></div> 
+           
+        
+        <div class="header__menu">
+          <nav id="navbar" class="header__nav collapse">
+            <ul class="header__elenco">
+              <li class="header__el"><a href="/index.html" class="header__link">Home</a></li>
+              <li class="header__el"><a href="/views/dealsDetails.html" class="header__link">Deals</a></li>
+              <li class="header__el"><a href="/views/aboutus.html" class="header__link">About Us</a></li>
+              <li class="header__el"><a href="/views/login.html" class="header__link">Login</a></li>
+            </ul>
+          </nav>
+        </div>
+          </div>
+      </header>
+  <div class="about-wrapper">
+    <div class="about-container">
+      <!-- Image Section -->
+      <div class="about-image">
+        <img src="https://images.unsplash.com/photo-1505846951821-e25bacf2eccd?auto=format&q=75&fit=crop&crop=top&w=1000&h=500" alt="About Us Image">
+      </div>
+
+      <!-- Text Content -->
+      <div class="about-text">
+        <div>
+          <h2>About SplitDeal<br />Power in Numbers.</h2>
+          <p>SplitDeal makes it easy to connect with others and unlock the full potential of group buying. By pooling together with like-minded shoppers, everyone saves more. </p>
+        </div>
+        <div class="about-btn">
+          <a href="#">Join the Movement</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
