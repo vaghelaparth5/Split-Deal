@@ -98,67 +98,72 @@
       </main>
     </div>
 
-    <!-- Create Deal Modal -->
-    <!-- Update the modal form in your HTML -->
-    <div id="createDealModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Create New Group</h2>
-        <form id="groupForm">
-          <div class="form-group">
-            <label for="groupTitle">Group Title</label>
-            <input type="text" id="groupTitle" name="title" required />
-          </div>
-          <div class="form-group">
-            <label for="groupDescription">Description</label>
-            <textarea
-              id="groupDescription"
-              name="description"
-              rows="3"
-              required
-            ></textarea>
-          </div>
-          <div class="form-group">
-            <label for="dealTitle">Deal Title</label>
-            <input type="text" id="dealTitle" name="dealTitle" required />
-          </div>
-          <div class="price-group">
-            <div class="form-group">
-              <label for="price">Current Price ($)</label>
-              <input type="number" id="price" name="price" required />
-            </div>
-            <div class="form-group">
-              <label for="original_price">Original Price ($)</label>
-              <input
-                type="number"
-                id="original_price"
-                name="original_price"
-                required
-              />
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="deadline">Deadline</label>
-            <input
-              type="datetime-local"
-              id="deadline"
-              name="deadline"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="max_participants">Max Participants</label>
-            <input
-              type="number"
-              id="max_participants"
-              name="max_participants"
-              required
-            />
-          </div>
-          <button type="submit" class="submit-btn">Create Group</button>
-        </form>
+    <!-- Update the modal form -->
+<div id="createGroupModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Create New Group Deal</h2>
+    <form id="groupForm">
+      <!-- Deal Reference Fields -->
+      <div class="form-group">
+        <label for="dealId">Deal ID</label>
+        <input type="text" id="dealId" name="dealId" required>
       </div>
-    </div>
+      <div class="form-group">
+        <label for="dealLogo">Deal Logo URL</label>
+        <input type="text" id="dealLogo" name="dealLogo" required>
+      </div>
+      
+      <!-- Deal Information -->
+      <div class="form-group">
+        <label for="dealTitle">Deal Title</label>
+        <input type="text" id="dealTitle" name="dealTitle" required>
+      </div>
+      <div class="form-group">
+        <label for="dealDescription">Deal Description</label>
+        <textarea id="dealDescription" name="dealDescription" rows="3"></textarea>
+      </div>
+      
+      <!-- Store Information -->
+      <div class="form-group">
+        <label for="storeName">Store Name</label>
+        <input type="text" id="storeName" name="storeName">
+      </div>
+      <div class="form-group">
+        <label for="storeLocation">Store Location</label>
+        <input type="text" id="storeLocation" name="storeLocation" required>
+      </div>
+      
+      <!-- Pricing Information -->
+      <div class="price-group">
+        <div class="form-group">
+          <label for="totalValue">Total Value ($)</label>
+          <input type="number" id="totalValue" name="totalValue" required>
+        </div>
+        <div class="form-group">
+          <label for="discount">Discount (%)</label>
+          <input type="number" id="discount" name="discount" required>
+        </div>
+      </div>
+      
+      <!-- Group Details -->
+      <div class="form-group">
+        <label for="expiryDate">Expiry Date</label>
+        <input type="datetime-local" id="expiryDate" name="expiryDate" required>
+      </div>
+      <div class="form-group">
+        <label for="membersRequired">Members Required</label>
+        <input type="number" id="membersRequired" name="membersRequired" required>
+      </div>
+      <div class="form-group">
+        <label for="receiptImage">Receipt Image URL</label>
+        <input type="text" id="receiptImage" name="receiptImage">
+      </div>
+      
+      <button type="submit" class="submit-btn">Create Group Deal</button>
+    </form>
+  </div>
+</div>
     <!-- ========== FOOTER ========== -->
     <footer class="footer">
       <div class="footer-container">

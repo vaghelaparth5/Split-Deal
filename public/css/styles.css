@@ -28,6 +28,11 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.hidden{
+  height: 0px;
+  width: 0px;
+}
+
 .group-popup.show {
   display: flex;
 }

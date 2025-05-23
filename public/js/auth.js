@@ -40,20 +40,6 @@ if (logoutBtn) {
   });
 }
 
-// Toggle Login/Signup mode
-// toggleLink.addEventListener("click", () => {
-//   isLogin = !isLogin;
-
-//   formTitle.textContent = isLogin ? "Sign In" : "Sign Up";
-//   submitBtn.textContent = isLogin ? "Sign In" : "Sign Up";
-//   toggleText.textContent = isLogin
-//     ? "Don't have an account?"
-//     : "Already have an account?";
-//   toggleLink.textContent = isLogin ? "Sign Up" : "Sign In";
-//   nameField.style.display = isLogin ? "none" : "block";
-//   confirmField.style.display = isLogin ? "none" : "block";
-// });
-
 authForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 

@@ -3,77 +3,74 @@ let deals = []; // Will be populated from API
 const dealGrid = document.getElementById("dealGrid");
 const brandFilter = document.getElementById("brandFilter");
 const searchInput = document.getElementById("searchInput");
-const modal = document.getElementById("createDealModal");
+const modal = document.getElementById("createGroupModal");
 const closeBtn = document.querySelector(".close");
 const dealForm = document.getElementById("dealForm");
 
 // Update the openGroupModal function
+// Function to open group creation modal
 function openModal(dealData) {
-  // Clear any existing values
-  document.getElementById("groupForm").reset();
-
-  // If we're creating a group from an existing deal, pre-fill some fields
+  // Pre-fill fields if coming from a deal
   if (dealData) {
-    document.getElementById("dealTitle").value = dealData.title || "";
-    document.getElementById("price").value = dealData.price || "";
-    document.getElementById("original_price").value =
-      dealData.original_price || "";
-    document.getElementById("deadline").value = dealData.deadline
-      ? new Date(dealData.deadline).toISOString().slice(0, 16)
-      : "";
-    document.getElementById("max_participants").value =
-      dealData.max_participants || 5;
+    document.getElementById('dealId').value = dealData._id || '';
+    document.getElementById('dealTitle').value = dealData.title || '';
+    document.getElementById('dealDescription').value = dealData.description || '';
+    document.getElementById('totalValue').value = dealData.price || '';
+    document.getElementById('discount').value = 
+      Math.round(((dealData.original_price - dealData.price) / dealData.original_price) * 100) || '';
+    document.getElementById('expiryDate').value = 
+      dealData.deadline ? new Date(dealData.deadline).toISOString().slice(0, 16) : '';
+    document.getElementById('membersRequired').value = dealData.max_participants || 5;
+    document.getElementById('dealLogo').value = dealData.image_url || '';
   }
+  
+  modal.style.display = 'block';
+}
 
-  modal.style.display = "block";
-
-  // Update the form submission handler
-if (document.getElementById("groupForm")) {
-  document.getElementById("groupForm").addEventListener("submit", async (e) => {
+// Form submission handler
+if (document.getElementById('groupForm')) {
+  document.getElementById('groupForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const formData = {
-      title: document.getElementById("groupTitle").value,
-      description: document.getElementById("groupDescription").value,
-      dealTitle: document.getElementById("dealTitle").value,
-      price: parseFloat(document.getElementById("price").value),
-      original_price: parseFloat(
-        document.getElementById("original_price").value
-      ),
-      deadline: document.getElementById("deadline").value,
-      max_participants: parseInt(
-        document.getElementById("max_participants").value
-      ),
+      dealId: document.getElementById('dealId').value,
+      dealLogo: document.getElementById('dealLogo').value,
+      dealTitle: document.getElementById('dealTitle').value,
+      dealDescription: document.getElementById('dealDescription').value,
+      storeName: document.getElementById('storeName').value,
+      storeLocation: document.getElementById('storeLocation').value,
+      totalValue: parseFloat(document.getElementById('totalValue').value),
+      discount: parseFloat(document.getElementById('discount').value),
+      expiryDate: document.getElementById('expiryDate').value,
+      membersRequired: parseInt(document.getElementById('membersRequired').value),
+      receiptImage: document.getElementById('receiptImage').value,
+      status: "active" // Default status
     };
 
-    console.log("Form Data:", formData);
-
     try {
-      const response = await fetch("http://localhost:3000/api/deal/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      const response = await fetch('http://localhost:3000/api/group/create-group', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData)
       });
 
       if (response.ok) {
         closeModal();
-        alert("Group created successfully!");
+        alert('Group deal created successfully!');
+        fetchGroups(); // Refresh the groups list
       } else {
         const errorData = await response.json();
-        console.error("Error:", errorData.message || "Failed to create group");
-        alert(
-          "Failed to create group: " + (errorData.message || "Please try again")
-        );
+        console.error('Error:', errorData);
+        alert(`Failed to create group: ${errorData.message || 'Please try again'}`);
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Network error. Please try again.");
+      console.error('Error:', error);
+      alert('Network error. Please try again.');
     }
   });
-}
 }
 
 
