@@ -1,4 +1,4 @@
-// src/cronJobs/dealExpiryJob.js
+const mongoose = require('mongoose');
 const Deal = require('../models/Deal');
 
 const dealExpiryJob = async () => {
@@ -17,3 +17,12 @@ const dealExpiryJob = async () => {
 };
 
 module.exports = dealExpiryJob;
+
+if (require.main === module) {
+  require('dotenv').config();
+  const connectDB = require('../config/db');
+
+  connectDB().then(() => {
+    dealExpiryJob().then(() => mongoose.disconnect());
+  });
+}
