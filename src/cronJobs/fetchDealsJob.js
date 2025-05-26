@@ -1,4 +1,3 @@
-// src/cronJobs/fetchDealsJob.js
 const axios = require('axios');
 const mongoose = require('mongoose');
 const Deal = require('../models/Deal');
@@ -20,10 +19,10 @@ const fetchDealsJob = async () => {
           description: product.description,
           price: product.price,
           original_price: Math.round(product.price + product.price * (product.discountPercentage / 100)),
-          deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days later
+          deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
           location: "Online",
           max_participants: 10,
-          creator: new mongoose.Types.ObjectId(), // Replace with real ID if needed
+          creator: new mongoose.Types.ObjectId(),
           participants: [],
           category: product.category,
           image_url: product.thumbnail,
@@ -44,3 +43,13 @@ const fetchDealsJob = async () => {
 };
 
 module.exports = fetchDealsJob;
+
+
+if (require.main === module) {
+  require('dotenv').config();
+  const connectDB = require('../config/db');
+
+  connectDB().then(() => {
+    fetchDealsJob().then(() => mongoose.disconnect());
+  });
+}
