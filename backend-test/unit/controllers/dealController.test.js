@@ -12,7 +12,8 @@ describe('Deal Controller - Unit Tests', () => {
     req = {
       body: {},
       user: { user_id: '123' },
-      app: { get: sinon.stub() }
+      app: { get: sinon.stub() },
+      params: { id: 'deal123' }
     };
     res = {
       status: sinon.stub().returnsThis(),
@@ -95,4 +96,46 @@ describe('Deal Controller - Unit Tests', () => {
   //     expect(res.status.calledWith(500)).to.be.true;
   //   });
   // });
+
+  // Added: Unit tests for softDeleteDeal
+  describe('softDeleteDeal', () => {
+    it('should soft delete a deal and set deletedAt', async () => {
+      const now = new Date();
+      const mockDeal = {
+        _id: 'deal123',
+        title: 'Old Deal',
+        save: sinon.stub().resolves()
+      };
+
+      sandbox.stub(Deal, 'findById').resolves(mockDeal);
+      const clock = sinon.useFakeTimers(now);
+
+      await dealController.softDeleteDeal(req, res);
+
+      expect(mockDeal.deletedAt).to.eql(now);
+      expect(mockDeal.save.calledOnce).to.be.true;
+      expect(res.status.calledWith(200)).to.be.true;
+      expect(res.json.calledWithMatch({ msg: 'Deal soft deleted successfully' })).to.be.true;
+
+      clock.restore();
+    });
+
+    it('should return 404 if deal not found', async () => {
+      sandbox.stub(Deal, 'findById').resolves(null);
+
+      await dealController.softDeleteDeal(req, res);
+
+      expect(res.status.calledWith(404)).to.be.true;
+      expect(res.json.calledWithMatch({ msg: 'Deal not found' })).to.be.true;
+    });
+
+    it('should handle server error', async () => {
+      sandbox.stub(Deal, 'findById').throws(new Error('DB error'));
+
+      await dealController.softDeleteDeal(req, res);
+
+      expect(res.status.calledWith(500)).to.be.true;
+      expect(res.json.calledWithMatch({ msg: 'Server Error' })).to.be.true;
+    });
+  });
 });
