@@ -166,32 +166,31 @@ exports.updateDeal = async (req, res) => {
 };
 
 // Soft delete a deal
-exports.deleteDeal = async (req, res) => {
-  try {
-    const deleted = await Deal.findByIdAndUpdate(
-      req.params.id,
-      { is_active: false },
-      { new: true }
-    );
-    if (!deleted) return res.status(404).json({ msg: "Deal not found" });
-    res.json({ msg: "Deal soft deleted", deal: deleted });
-  } catch (error) {
-    res.status(500).json({ msg: "Server Error", error });
-  }
-};
-
-// Soft delete a deal
 exports.softDeleteDeal = async (req, res) => {
   try {
     const deal = await Deal.findById(req.params.id);
     if (!deal) return res.status(404).json({ msg: "Deal not found" });
 
     deal.is_active = false;
+    deal.deletedAt = new Date(); // Optional: audit field
     await deal.save();
 
     res.status(200).json({ msg: "Deal soft deleted successfully", deal });
   } catch (error) {
-    res.status(500).json({ msg: "Server Error", error });
+    console.error("Soft Delete Error:", error);
+    res.status(500).json({ msg: "Server Error", error: error.message });
   }
 };
+
+// Get all active deals (non-deleted)
+exports.getDeals = async (req, res) => {
+  try {
+    const deals = await Deal.find().notDeleted().sort({ created_at: -1 });
+    res.status(200).json(deals);
+  } catch (error) {
+    console.error("Get Deals Error:", error);
+    res.status(500).json({ msg: "Server Error", error: error.message });
+  }
+};
+
 
