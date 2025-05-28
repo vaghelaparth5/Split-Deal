@@ -182,7 +182,7 @@ exports.softDeleteDeal = async (req, res) => {
   }
 };
 
-// Get all active deals (non-deleted)
+// Get all active deals 
 exports.getDeals = async (req, res) => {
   try {
     const deals = await Deal.find().notDeleted().sort({ created_at: -1 });
