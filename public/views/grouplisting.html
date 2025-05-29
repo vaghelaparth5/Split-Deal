@@ -21,24 +21,34 @@
         <h1 class="header__title"></h1>
         </a>
       </div>
-      <nav class="header__nav">
-        <ul class="header__menu">
-          <li><a href="/">Home</a></li>
-          <li><a href="dealsDetails.html">Deals</a></li>
-          <li>
-            <a href="/views/aboutus.html" class="header__link">About Us</a>
-          </li>
-          <li><a href="/views/login.html">Login</a></li>
-        </ul>
-      </nav>
-    </div>
+      <div class="header__menu">
+        <nav id="navbar" class="header__nav collapse">
+          <ul class="header__elenco">
+            <li class="header__el"><a href="/index.html" class="header__link">Home</a></li>
+            <li class="header__el"><a href="/views/grouplisting.html" class="header__link">Groups</a></li>
+            <li class="header__el"><a href="/views/dealsDetails.html" class="header__link">Deals</a></li>
+            <li class="header__el">
+              <a href="/views/aboutus.html" class="header__link">About Us</a>
+            </li>
+            <li class="header__el" id="loginMenuItem"><a href="/views/login.html" class="header__link">Login</a></li>
+            <li class="header__el" id="profileMenu" style="display: none;">
+              <div class="profile-container">
+                <div id="profileIcon" class="profile-icon">U</div>
+                <div class="dropdown" id="profileDropdown">
+                  <a href="/views/profilepage.html">Profile</a>
+                  <a href="#" id="logoutBtn">Logout</a>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    
 
-    <!-- 🔍 Search & Filters -->
-    <div class="filters">
-      <input type="text" id="search" placeholder="🔍 Search Deals..." />
-      <select id="filter-location">
-        <option value="">📍 All Locations</option>
-      </select>
+      <div id="deal-notification" class="deal-popup">
+        <img id="deal-img" src="" alt="Deal Image" class="deal-img" />
+
+      </div>
     </div>
   </header>
 
@@ -58,7 +68,7 @@
       <button id="join-btn" class="join-btn">Confirm Join</button>
     </div>
   </div>
-
+          
   <!-- 🛍️ Deal Notification -->
   <!-- <div id="deal-notification" class="deal-popup hidden">
     <img id="deal-img" src="" alt="Deal Image" class="deal-img" />
