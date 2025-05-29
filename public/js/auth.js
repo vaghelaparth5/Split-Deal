@@ -1,4 +1,4 @@
-// auth.js - Complete Debugged Version
+// auth.js - Complete Version with Error Message Handling
 
 // DOM Elements
 const authForm = document.getElementById("authForm");
@@ -8,6 +8,7 @@ const toggleText = document.getElementById("toggleText");
 const submitBtn = document.getElementById("submitBtn");
 const nameField = document.getElementById("nameField");
 const confirmField = document.getElementById("confirmField");
+const errorMessage = document.getElementById("errorMessage");
 
 const loginMenuItem = document.getElementById("loginMenuItem");
 const profileMenu = document.getElementById("profileMenu");
@@ -17,18 +18,44 @@ const logoutBtn = document.getElementById("logoutBtn");
 
 console.log("[DEBUG] Auth.js initialized. Checking localStorage...");
 
+// Helper to show error
+function showError(msg) {
+  errorMessage.textContent = msg;
+  errorMessage.style.display = "block";
+}
+
+// Helper to clear error
+function clearError() {
+  errorMessage.textContent = "";
+  errorMessage.style.display = "none";
+}
+
+// Clear error when user starts typing any input
+[...document.querySelectorAll("#authForm input")].forEach(input => {
+  input.addEventListener("input", () => {
+    if (errorMessage.style.display === "block") {
+      clearError();
+    }
+  });
+});
+
 // Toggle between login/signup
 let isLogin = true;
 toggleLink.addEventListener("click", () => {
   isLogin = !isLogin;
+
   formTitle.textContent = isLogin ? "Sign In" : "Sign Up";
   submitBtn.textContent = isLogin ? "Sign In" : "Sign Up";
   toggleText.textContent = isLogin 
     ? "Don't have an account?" 
     : "Already have an account?";
   toggleLink.textContent = isLogin ? "Sign Up" : "Sign In";
+
   nameField.style.display = isLogin ? "none" : "block";
   confirmField.style.display = isLogin ? "none" : "block";
+
+  authForm.reset();
+  clearError();
 });
 
 // Profile dropdown toggle
@@ -54,17 +81,31 @@ authForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   console.log("[DEBUG] Form submitted. Mode:", isLogin ? "Login" : "Register");
 
+  clearError();
+
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
   const remember = document.getElementById("rememberMe").checked;
+
+  if (!email || !password) {
+    showError("Please enter all required fields.");
+    return;
+  }
 
   let name, confirm;
   if (!isLogin) {
     name = document.getElementById("name").value.trim();
     confirm = document.getElementById("confirmPassword").value;
 
-    if (!name) return alert("Please enter your name.");
-    if (password !== confirm) return alert("Passwords do not match.");
+    if (!name || !confirm) {
+      showError("Please enter all required fields.");
+      return;
+    }
+
+    if (password !== confirm) {
+      showError("Passwords do not match.");
+      return;
+    }
   }
 
   const payload = isLogin
@@ -95,7 +136,6 @@ authForm.addEventListener("submit", async (e) => {
       throw new Error(data.error || "Unknown error occurred");
     }
 
-    // Store authentication data
     if (data.token) {
       localStorage.setItem("authToken", data.token);
       console.log("[DEBUG] Auth token stored in localStorage");
@@ -103,7 +143,6 @@ authForm.addEventListener("submit", async (e) => {
       console.warn("[DEBUG] No token received in response");
     }
 
-    // Handle username - checking multiple possible response fields
     const receivedUsername = data.user_name || data.username || data.name;
     if (receivedUsername) {
       localStorage.setItem("userName", receivedUsername);
@@ -112,11 +151,9 @@ authForm.addEventListener("submit", async (e) => {
       console.warn("[DEBUG] No username received in response. Available fields:", Object.keys(data));
     }
 
-    // Display success and update UI
     alert(data.message || (isLogin ? "Login successful!" : "Registration successful!"));
     showProfileUI(receivedUsername || name || "U");
 
-    // Redirect or reset form
     if (isLogin) {
       window.location.href = "/index.html";
     } else {
@@ -126,7 +163,7 @@ authForm.addEventListener("submit", async (e) => {
 
   } catch (err) {
     console.error("[ERROR] Authentication failed:", err);
-    alert(`Error: ${err.message}`);
+    showError(`Error: ${err.message}`);
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = isLogin ? "Sign In" : "Sign Up";
