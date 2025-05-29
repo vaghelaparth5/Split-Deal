@@ -9,7 +9,7 @@ sendBtn.addEventListener('click', sendMessage);
 
 // Also send on Enter key
 input.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
+  if (e.key === 'Enter') { 
     e.preventDefault();
     sendMessage();
   }

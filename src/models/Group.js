@@ -14,6 +14,7 @@ const GroupSchema = new mongoose.Schema({
   creationDate: { type: Date, default: Date.now },
   status: { type: String, enum: ["active", "inactive", "completed"], default: "active" }, 
   receiptImage: { type: String },
+  whatapp_link:{type:String, default:""}
 }, { timestamps: true });
 
 module.exports = mongoose.model("Group", GroupSchema);

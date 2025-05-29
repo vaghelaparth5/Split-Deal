@@ -116,7 +116,7 @@ window.onload = function () {
             clearTimeout(timer);
         };
     });
-    
+
     // Group Status Update Notification
     socket.on("group-status-updated", (data) => {
         console.log(" [GROUP] group-status-updated received:", data);
@@ -150,7 +150,42 @@ window.onload = function () {
         };
     });
 
+    const countdownIntervals = {};
 
+    socket.on("sync-deadline", ({ dealId, timeLeft }) => {
+        const countdownEl = document.getElementById(`countdown-${dealId}`);
+        const cardEl = document.getElementById(`deal-card-${dealId}`);
+
+        if (!countdownEl) return;
+
+        const seconds = Math.floor(timeLeft / 1000);
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+
+        countdownEl.textContent = `⏳ ${mins}m ${secs < 10 ? "0" : ""}${secs}s left`;
+
+        // Optional: Add pulsing effect when < 30s
+        if (seconds < 30) {
+            countdownEl.style.color = "#ff3d00";
+            countdownEl.style.fontWeight = "bold";
+        }
+    });
+    socket.on("deal_expired", ({ deal }) => {
+        const cardEl = document.getElementById(`deal-card-${deal._id}`);
+        const countdownEl = document.getElementById(`countdown-${deal._id}`);
+
+        if (cardEl) {
+            cardEl.style.opacity = "0.5";
+            cardEl.style.pointerEvents = "none";
+        }
+
+        if (countdownEl) {
+            countdownEl.textContent = " Deal Expired";
+            countdownEl.style.color = "#888";
+        }
+
+        console.log("Deal expired:", deal.title);
+    });
 
 
     //  DISCONNECT
