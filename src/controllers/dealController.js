@@ -94,6 +94,7 @@ exports.getDeals = async (req, res) => {
 };
 
 // Manually expire all deals past their deadline
+
 exports.expireDeals = async (req, res) => {
   try {
     const now = new Date();
