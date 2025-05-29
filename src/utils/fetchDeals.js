@@ -42,3 +42,5 @@ async function fetchAndWriteDeals() {
 }
 
 fetchAndWriteDeals();
+
+//Write into sheets

@@ -41,3 +41,5 @@ async function readAndLoopDeals() {
 }
 
 readAndLoopDeals().catch(console.error);
+
+//Reag Deals from Sheets
