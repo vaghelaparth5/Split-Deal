@@ -226,7 +226,7 @@ async function fetchDeals() {
   try {
     const response = await fetch("http://localhost:3000/api/deal/get");
     const data = await response.json();
-    deals = data.deals || [];
+    deals = data;
     // Populate the brand filter dropdown dynamically
     populateBrandFilter();
     applyFilters(); // Apply current filters after fetching
